@@ -34,6 +34,12 @@ const colors = {
     600: '#464646',
   },
 };
-const theme = extendTheme({ colors });
+
+const shadows = {
+  base: '4px 4px 20px rgba(118, 118, 118, 0.3)',
+  primary: '0 0 1px 2px #A4B375, 0 0 2px 2px #A4B375',
+};
+
+const theme = extendTheme({ colors, shadows });
 
 export default theme;

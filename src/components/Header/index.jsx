@@ -24,7 +24,7 @@ const Header = () => {
               leftIcon={<Icon name={menu.icon} color="primary.400" width={menu.size} minHeight={menu.size} />}
               _hover={{ bg: 'primary.100', borderColor: 'primary.300' }}
               _active={{ bg: 'white', borderColor: 'primary.400' }}
-              _focus={{ boxShadow: '0 0 1px 2px #A4B375, 0 0 2px 2px #A4B375' }}
+              _focus={{ boxShadow: 'primary' }}
             >
               {menu.name}
             </Button>

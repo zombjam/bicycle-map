@@ -15,6 +15,7 @@ const PositionButton = () => {
         _disabled={{ bg: 'gray.300' }}
         _active={{ bg: 'primary.400', borderColor: 'primary.500', borderWidth: '3px' }}
         _focus={{ bg: 'primary.400', borderColor: 'primary.500', borderWidth: '3px' }}
+        boxShadow="base"
       />
     </Tooltip>
   );
