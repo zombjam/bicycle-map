@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { VStack, HStack, Box, Text, Skeleton, Tag } from '@chakra-ui/react';
-import { Icon } from 'components/index';
+import { Icon } from 'components';
 
 const LABEL = {
   bike: '可租借',
   parking: '可停車',
 };
 
-const getStatus = count => {
+function getStatus(count) {
   if (count > 5) {
     return { bg: 'primary.100', color: 'primary.500' };
   }
@@ -16,9 +16,9 @@ const getStatus = count => {
     return { bg: 'warn.100', color: 'warn.600' };
   }
   return { bg: 'gray.200', color: 'gray.400' };
-};
+}
 
-const getStationStatus = status => {
+function getStationStatus(status) {
   let label = '';
   let color = '';
   let borderColor = '';
@@ -47,13 +47,13 @@ const getStationStatus = status => {
       break;
   }
   return { label, color, borderColor };
-};
+}
 
 const CardCount = ({ icon, count }) => {
   const { bg, color } = getStatus(count);
 
   return (
-    <VStack w="full" p={2} bg={bg} color={color} rounded="lg" spacing={1}>
+    <VStack w="full" p={2} bg={bg} color={color} rounded="lg" spacing={1} fontWeight="500">
       <Box display="flex" pt={1}>
         <Icon name={icon} color={color} mr="1" />
         <Text lineHeight="1">{LABEL[icon]}</Text>
@@ -79,36 +79,34 @@ const StationTag = ({ status }) => {
 const VehicleCard = ({ vehicle }) => {
   // console.log('vehicle: ', vehicle);
   return (
-    <>
-      <VStack w="full" alignItems="flex-start" pb={5} spacing={3} borderBottom="1px" borderColor="gray.300">
-        {true ? (
-          <>
-            <Text color="primary.500" w="full" fontSize="22px" fontWeight="500" lineHeight="27px" isTruncated>
-              我是站牌我是站牌我是站牌我是站牌我是站牌
-            </Text>
-            <HStack w="full" spacing={6}>
-              <CardCount icon="bike" count={43} />
-              <CardCount icon="parking" count={1} />
-            </HStack>
-            <HStack w="full" justify="space-between">
-              <StationTag status="status1"></StationTag>
-              <Box color="gray.500">
-                <Icon name="map" color="gray.500" mr="1" mt="-2px" />
-                距離25公尺
-              </Box>
-            </HStack>
-          </>
-        ) : (
-          <>
-            <Skeleton startColor="gray.300" endColor="gray.200" height="27px" width="100%" />
-            <HStack w="full" spacing={6}>
-              <Skeleton startColor="gray.300" endColor="gray.200" rounded="lg" height="72px" width="100%" />
-              <Skeleton startColor="gray.300" endColor="gray.200" rounded="lg" height="72px" width="100%" />
-            </HStack>
-          </>
-        )}
-      </VStack>
-    </>
+    <VStack w="full" alignItems="flex-start" pb={5} spacing={3} borderBottom="1px" borderColor="gray.300">
+      {true ? (
+        <>
+          <Text color="primary.500" w="full" fontSize="22px" fontWeight="500" lineHeight="27px" isTruncated>
+            我是站牌我是站牌我是站牌我是站牌我是站牌
+          </Text>
+          <HStack w="full" spacing={6}>
+            <CardCount icon="bike" count={43} />
+            <CardCount icon="parking" count={1} />
+          </HStack>
+          <HStack w="full" justify="space-between">
+            <StationTag status="status1"></StationTag>
+            <Box color="gray.500" fontWeight="500">
+              <Icon name="map" color="gray.500" mr="1" mt="-2px" />
+              距離25公尺
+            </Box>
+          </HStack>
+        </>
+      ) : (
+        <>
+          <Skeleton startColor="gray.300" endColor="gray.200" height="27px" width="100%" />
+          <HStack w="full" spacing={6}>
+            <Skeleton startColor="gray.300" endColor="gray.200" rounded="lg" height="72px" width="100%" />
+            <Skeleton startColor="gray.300" endColor="gray.200" rounded="lg" height="72px" width="100%" />
+          </HStack>
+        </>
+      )}
+    </VStack>
   );
 };
 
