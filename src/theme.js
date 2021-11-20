@@ -1,5 +1,9 @@
 import { extendTheme } from '@chakra-ui/react';
 
+const fonts = {
+  body: '"Noto Sans TC", "system-ui", sans-serif',
+};
+
 const colors = {
   primary: {
     100: '#DFE4CE',
@@ -40,6 +44,6 @@ const shadows = {
   primary: '0 0 1px 2px #A4B375, 0 0 2px 2px #A4B375',
 };
 
-const theme = extendTheme({ colors, shadows });
+const theme = extendTheme({ fonts, colors, shadows });
 
 export default theme;

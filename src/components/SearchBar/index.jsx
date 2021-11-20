@@ -17,7 +17,7 @@ import { Icon } from 'components';
 
 const SearchBar = () => {
   return (
-    <Box display="flex" alignItems="center" px={2} py={7} w="full">
+    <Box display="flex" alignItems="center" px={3.5} py={7} w="full">
       <InputGroup mr={2}>
         <Input
           rounded="lg"
@@ -47,15 +47,15 @@ const SearchBar = () => {
         </MenuButton>
         <MenuList minW="auto" borderColor="primary.300" px={4}>
           <MenuOptionGroup defaultValue="nearby" type="radio">
-            <MenuItemOption color="primary.400" px="0" py={1} fontWeight="500" value="nearby">
+            <MenuItemOption color="primary.400" px="0" py={1} fontWeight="500" value="nearby" _active={{}}>
               距離較近
             </MenuItemOption>
             <MenuDivider my={1} borderColor="gray.300" />
-            <MenuItemOption color="primary.400" px="0" py={1} fontWeight="500" value="borrow">
+            <MenuItemOption color="primary.400" px="0" py={1} fontWeight="500" value="borrow" _active={{}}>
               可借車數
             </MenuItemOption>
             <MenuDivider my={1} borderColor="gray.300" />
-            <MenuItemOption color="primary.400" px="0" py={1} fontWeight="500" value="return">
+            <MenuItemOption color="primary.400" px="0" py={1} fontWeight="500" value="return" _active={{}}>
               可還車數
             </MenuItemOption>
           </MenuOptionGroup>

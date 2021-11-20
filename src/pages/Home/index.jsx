@@ -5,10 +5,10 @@ import { PositionButton, PinButtons, Map, SearchVehicles } from 'components';
 const Home = () => {
   return (
     <>
-      <Box w="max-content" position="absolute" top={['10%']} left="60px" m="0 auto" zIndex={9999}>
+      <Box w="max-content" position="absolute" top={['36px']} left={['32px']} m="0 auto" zIndex={9999}>
         <SearchVehicles />
       </Box>
-      <Box w="max-content" position="absolute" top="10%" left={['500px']} zIndex={9999}>
+      <Box w="max-content" position="absolute" top={['36px']} left={['477px']} zIndex={9999}>
         <HStack spacing={3}>
           <PinButtons
             buttons={[
