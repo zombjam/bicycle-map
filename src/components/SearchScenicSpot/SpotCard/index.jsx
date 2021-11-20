@@ -3,12 +3,23 @@ import React from 'react';
 import { VStack, HStack, Box, Text, Skeleton, Tag } from '@chakra-ui/react';
 import { Icon } from 'components';
 
-const SpotCard = ({ vehicle }) => {
+const SpotCard = ({ spot }) => {
   return (
     <VStack w="full" alignItems="flex-start" pb={5} spacing={3} borderBottom="1px" borderColor="gray.300">
       {true ? (
         <>
-          <Skeleton startColor="gray.300" endColor="gray.200" height="155px" rounded="lg" width="100%" />
+          <Box
+            w="full"
+            minH="155px"
+            rounded="lg"
+            border="1px"
+            borderColor="primary.400"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Icon name="logo2" viewBox="0 0 214 32" width="246px" minHeight="9" />
+          </Box>
           <Box display="flex" alignItems="center" w="full" spacing={6} justifyContent={'space-between'}>
             <Text color="primary.500" flex="1" fontSize="22px" fontWeight="500" lineHeight="27px" isTruncated>
               我是景點我是景點我是景點我是景點我是景點

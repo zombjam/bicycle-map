@@ -67,7 +67,6 @@ const CardCount = ({ icon, count }) => {
 
 const StationTag = ({ status }) => {
   const { label, color, borderColor } = getStationStatus(status);
-  console.log(label);
 
   return (
     <Tag color={color} borderWidth="1px" fontSize="md" borderColor={borderColor} bg="white" px={3} py={1.5}>
