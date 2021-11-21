@@ -23,22 +23,22 @@ function getStationStatus(status) {
   let color = '';
   let borderColor = '';
   switch (status) {
-    case 'status1':
+    case 'all':
       label = '可借可還';
       color = 'accent.500';
       borderColor = 'accent.300';
       break;
-    case 'status2':
+    case 'onlyRent':
       label = '只可借車';
       color = 'warn.400';
       borderColor = 'accent.300';
       break;
-    case 'status3':
+    case 'onlyReturn':
       label = '只可停車';
       color = 'warn.400';
       borderColor = 'accent.300';
       break;
-    case 'status4':
+    case 'maintain':
       label = '站點施工中';
       color = 'gray.400';
       borderColor = 'gray.300';
@@ -76,32 +76,48 @@ const StationTag = ({ status }) => {
 };
 
 const VehicleCard = ({ vehicle }) => {
-  // console.log('vehicle: ', vehicle);
+  const getStationStatus = () => {
+    if (vehicle.ServiceStatus === 0 || vehicle.ServiceStatus === 2) {
+      return 'maintain';
+    }
+    if (!vehicle.AvailableRentBikes && vehicle.AvailableReturnBikes > 0) {
+      return 'onlyReturn';
+    }
+    if (!vehicle.AvailableReturnBikes && vehicle.AvailableRentBikes > 0) {
+      return 'onlyRent';
+    }
+    return 'all';
+  };
+
   return (
     <VStack w="full" alignItems="flex-start" pb={5} spacing={3} borderBottom="1px" borderColor="gray.300">
-      {true ? (
+      {vehicle != null ? (
         <>
           <Text color="primary.500" w="full" fontSize="22px" fontWeight="500" lineHeight="27px" isTruncated>
-            我是站牌我是站牌我是站牌我是站牌我是站牌
+            {vehicle.StationName}
           </Text>
           <HStack w="full" spacing={6}>
-            <CardCount icon="bike" count={43} />
-            <CardCount icon="parking" count={1} />
+            <CardCount icon="bike" count={vehicle.AvailableRentBikes} />
+            <CardCount icon="parking" count={vehicle.AvailableReturnBikes} />
           </HStack>
-          <HStack w="full" justify="space-between">
-            <StationTag status="status1"></StationTag>
+          <HStack w="full" justifyContent="space-between">
+            <StationTag status={getStationStatus()}></StationTag>
             <Box color="gray.500" fontWeight="500">
-              <Icon name="map" color="gray.500" mr="1" mt="-2px" />
-              距離25公尺
+              <Icon name="clock" color="gray.500" mr="1" mt="-2px" />
+              更新時間:{vehicle.UpdateTime}
             </Box>
           </HStack>
         </>
       ) : (
         <>
-          <Skeleton startColor="gray.300" endColor="gray.200" height="27px" width="100%" />
+          <Skeleton startColor="gray.300" endColor="gray.200" height="27px" w="full" />
           <HStack w="full" spacing={6}>
-            <Skeleton startColor="gray.300" endColor="gray.200" rounded="lg" height="72px" width="100%" />
-            <Skeleton startColor="gray.300" endColor="gray.200" rounded="lg" height="72px" width="100%" />
+            <Skeleton startColor="gray.300" endColor="gray.200" rounded="lg" height="72px" w="full" />
+            <Skeleton startColor="gray.300" endColor="gray.200" rounded="lg" height="72px" w="full" />
+          </HStack>
+          <HStack w="full" spacing={6} justifyContent="space-between">
+            <Skeleton startColor="gray.300" endColor="gray.200" h={4} w="full" />
+            <Skeleton startColor="gray.300" endColor="gray.200" h={4} w="full" />
           </HStack>
         </>
       )}

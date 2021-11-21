@@ -1,4 +1,5 @@
 import ajax from './ajax';
+import format from 'date-fns/format';
 
 const initBikeStation = {
   $select: 'StationUID,StationName,StationPosition,StationAddress',
@@ -25,7 +26,7 @@ export async function getBikeStation(params) {
     StationName: station.StationName.Zh_tw.replace(/(YouBike1.0_|YouBike2.0_)/g, ''),
     StationAddress: station.StationAddress.Zh_tw,
     ...bikeAvailability[index],
-    // ...bikeAvailability.find(availability => availability.StationUID === station.StationUID),
+    UpdateTime: formattedDate(new Date(station.UpdateTime)),
   }));
 }
 
@@ -66,4 +67,8 @@ export async function getRestaurant(params) {
       return { ...data, Tags, Picture: Picture?.PictureUrl1 };
     })
   );
+}
+
+function formattedDate(date, formatStr = 'HH:mm') {
+  return format(date, formatStr);
 }

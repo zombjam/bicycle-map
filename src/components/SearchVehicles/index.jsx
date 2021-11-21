@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Flex, AspectRatio, VStack } from '@chakra-ui/react';
+import { connect } from 'react-redux';
+import { getBikeStation } from 'api';
+import { searchStations } from 'store/actions/station';
 
 import SearchBar from '../SearchBar';
 import VehicleCard from './VehicleCard';
 
-const SearchVehicles = () => {
+const SearchVehicles = ({ position, station, searchStations }) => {
+  const fetchStations = useCallback(() => {
+    if (!position.length) return;
+    const [lat, lng] = position;
+    const params = {
+      $spatialFilter: `nearby(${lat}, ${lng}, 1000)`,
+    };
+    getBikeStation(params).then(res => {
+      searchStations(res);
+    });
+  }, [position, searchStations]);
+
+  useEffect(() => {
+    fetchStations();
+  }, [fetchStations]);
+
   return (
     <AspectRatio w={['425px']} ratio={9 / 17.5}>
       <Flex
@@ -35,13 +53,28 @@ const SearchVehicles = () => {
             },
           }}
         >
-          {/* <VehicleCard /> */}
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
-            <VehicleCard key={item} />
+          {!station.length && [0, 1, 2, 3].map(i => <VehicleCard key={i} />)}
+          {station.map(item => (
+            <VehicleCard key={item.StationUID} vehicle={item} />
           ))}
         </VStack>
       </Flex>
     </AspectRatio>
   );
 };
-export default SearchVehicles;
+
+const mapStateToProps = state => {
+  const { map, station } = state;
+  return {
+    position: map.position,
+    station: station.station,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    searchStations: data => dispatch(searchStations(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchVehicles);
