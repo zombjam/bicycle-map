@@ -3,7 +3,6 @@ import { Flex, AspectRatio, VStack } from '@chakra-ui/react';
 import { connect } from 'react-redux';
 import { loadBikeStation } from 'api';
 import { getStations } from 'store/actions/station';
-import { getDistance } from 'geolib';
 
 import SearchBar from '../SearchBar';
 import VehicleCard from './VehicleCard';
@@ -17,16 +16,9 @@ const SearchVehicles = ({ position, station, getStations }) => {
     const params = {
       $spatialFilter: `nearby(${lat}, ${lng}, 1000)`,
     };
-    loadBikeStation(params).then(res => {
+    loadBikeStation(params, position).then(res => {
       listRef.current.scrollTo(0, 0);
-      const data = res.map(item => ({
-        ...item,
-        distance: getDistance(
-          { latitude: lat, longitude: lng },
-          { latitude: item.StationPosition.PositionLat, longitude: item.StationPosition.PositionLon }
-        ),
-      }));
-      getStations(data);
+      getStations(res);
     });
   }, [position, getStations]);
 

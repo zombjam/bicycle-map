@@ -9,7 +9,7 @@ import { GPS_ICON } from './Icon';
 import 'leaflet/dist/leaflet.css';
 import { setLocation, setMap } from 'store/actions';
 
-const Map = ({ position, map, setMap }) => {
+const Map = ({ position, map, setMap, children }) => {
   useEffect(() => {
     if (map) {
       map.flyTo(position);
@@ -18,12 +18,13 @@ const Map = ({ position, map, setMap }) => {
 
   return (
     <Box w="full" h="full">
-      <MapContainer center={position} zoom={16} zoomControl={false} style={{ height: '100%' }} whenCreated={setMap}>
+      <MapContainer center={position} zoom={23} zoomControl={false} style={{ height: '100%' }} whenCreated={setMap}>
         <ZoomControl position="topright" />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
         />
+        {children}
         <LocationMarker position={position} icon={GPS_ICON} title="目前的位置" alt="目前的位置"></LocationMarker>
       </MapContainer>
     </Box>

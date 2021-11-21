@@ -1,4 +1,5 @@
 import ajax from './ajax';
+import { getDistance } from 'geolib';
 import { format } from 'date-fns';
 
 const initBikeStation = {
@@ -18,7 +19,10 @@ function loadAvailabilityNearby(params = {}) {
   return ajax(`/Bike/Availability/Nearby`, { ...initBikeAvailability, ...params });
 }
 
-export async function loadBikeStation(params) {
+export async function loadBikeStation(params, latlng) {
+  // console.log('latlng: ', latlng);
+  if (!latlng) return;
+  const [lat, lng] = latlng;
   const [bikeStations, bikeAvailability] = await Promise.all([loadStationNearby(params), loadAvailabilityNearby(params)]);
   try {
     return bikeStations.map((station, index) => ({
@@ -27,6 +31,10 @@ export async function loadBikeStation(params) {
       StationAddress: station.StationAddress.Zh_tw,
       ...(bikeAvailability || [])[index],
       UpdateTime: formattedDate(new Date(station.UpdateTime)),
+      distance: getDistance(
+        { latitude: lat, longitude: lng },
+        { latitude: station.StationPosition.PositionLat, longitude: station.StationPosition.PositionLon }
+      ),
     }));
   } catch (e) {
     console.log(e);

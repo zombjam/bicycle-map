@@ -7,3 +7,4 @@ export { default as SearchVehicles } from './SearchVehicles';
 export { default as SearchRoad } from './SearchRoad';
 export { default as SearchScenicSpot } from './SearchScenicSpot';
 export { default as Modal } from './Modal';
+export { default as LocationMarker } from './LocationMarker';
