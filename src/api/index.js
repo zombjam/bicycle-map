@@ -1,5 +1,5 @@
 import ajax from './ajax';
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 
 const initBikeStation = {
   $select: 'StationUID,StationName,StationPosition,StationAddress',
