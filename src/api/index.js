@@ -21,11 +21,11 @@ function getAvailabilityNearby(params = {}) {
 export async function getBikeStation(params) {
   const [bikeStations, bikeAvailability] = await Promise.all([getStationNearby(params), getAvailabilityNearby(params)]);
 
-  return bikeStations.map((station, index) => ({
+  return (bikeStations || []).map((station, index) => ({
     ...station,
     StationName: station.StationName.Zh_tw.replace(/(YouBike1.0_|YouBike2.0_)/g, ''),
     StationAddress: station.StationAddress.Zh_tw,
-    ...bikeAvailability[index],
+    ...(bikeAvailability || [])[index],
     UpdateTime: formattedDate(new Date(station.UpdateTime)),
   }));
 }

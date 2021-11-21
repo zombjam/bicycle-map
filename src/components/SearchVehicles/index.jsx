@@ -54,7 +54,7 @@ const SearchVehicles = ({ position, station, searchStations }) => {
           }}
         >
           {!station?.length && [0, 1, 2, 3].map(i => <VehicleCard key={i} />)}
-          {station.map(item => (
+          {station?.map(item => (
             <VehicleCard key={item.StationUID} vehicle={item} />
           ))}
         </VStack>
