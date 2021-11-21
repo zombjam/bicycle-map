@@ -9,7 +9,7 @@ import VehicleCard from './VehicleCard';
 
 const SearchVehicles = ({ position, station, searchStations }) => {
   const fetchStations = useCallback(() => {
-    if (!position.length) return;
+    if (!position?.length) return;
     const [lat, lng] = position;
     const params = {
       $spatialFilter: `nearby(${lat}, ${lng}, 1000)`,
@@ -53,7 +53,7 @@ const SearchVehicles = ({ position, station, searchStations }) => {
             },
           }}
         >
-          {!station.length && [0, 1, 2, 3].map(i => <VehicleCard key={i} />)}
+          {!station?.length && [0, 1, 2, 3].map(i => <VehicleCard key={i} />)}
           {station.map(item => (
             <VehicleCard key={item.StationUID} vehicle={item} />
           ))}
