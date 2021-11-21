@@ -13,10 +13,10 @@ const Home = () => {
 
   return (
     <>
-      <Box w="max-content" position="absolute" top={['36px']} left={['32px']} m="0 auto" zIndex={9999}>
+      <Box w="max-content" position="absolute" top={['36px']} left={['32px']} m="0 auto" zIndex="999">
         <SearchVehicles />
       </Box>
-      <Box w="max-content" position="absolute" top={['36px']} left={['477px']} zIndex={9999}>
+      <Box w="max-content" position="absolute" top={['36px']} left={['477px']} zIndex="999">
         <HStack spacing={3}>
           <PinButtons
             buttons={[
