@@ -6,7 +6,7 @@ const initialState = {
 
 const stationReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case StationActions.SEARCH_STATIONS:
+    case StationActions.GET_STATIONS:
       return { ...state, station: payload };
     default:
       return state;

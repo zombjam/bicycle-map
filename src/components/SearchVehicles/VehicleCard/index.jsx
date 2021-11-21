@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { VStack, HStack, Box, Text, Skeleton, Tag } from '@chakra-ui/react';
 import { Icon } from 'components';
 
@@ -102,9 +101,13 @@ const VehicleCard = ({ vehicle }) => {
           </HStack>
           <HStack w="full" justifyContent="space-between">
             <StationTag status={getStationStatus()}></StationTag>
-            <Box color="gray.500" fontWeight="500">
+            {/* <Box color="gray.500" fontWeight="500">
               <Icon name="clock" color="gray.500" mr="1" mt="-2px" />
               更新時間:{vehicle.UpdateTime}
+            </Box> */}
+            <Box color="gray.500" fontWeight="500">
+              <Icon name="map" color="gray.500" mr="1" mt="-2px" />
+              距離{vehicle.distance}公尺
             </Box>
           </HStack>
         </>

@@ -1,23 +1,34 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { Flex, AspectRatio, VStack } from '@chakra-ui/react';
 import { connect } from 'react-redux';
-import { getBikeStation } from 'api';
-import { searchStations } from 'store/actions/station';
+import { loadBikeStation } from 'api';
+import { getStations } from 'store/actions/station';
+import { getDistance } from 'geolib';
 
 import SearchBar from '../SearchBar';
 import VehicleCard from './VehicleCard';
 
-const SearchVehicles = ({ position, station, searchStations }) => {
+const SearchVehicles = ({ position, station, getStations }) => {
+  const listRef = useRef(null);
+
   const fetchStations = useCallback(() => {
-    if (!position?.length) return;
+    if (!position.length) return;
     const [lat, lng] = position;
     const params = {
       $spatialFilter: `nearby(${lat}, ${lng}, 1000)`,
     };
-    getBikeStation(params).then(res => {
-      searchStations(res);
+    loadBikeStation(params).then(res => {
+      listRef.current.scrollTo(0, 0);
+      const data = res.map(item => ({
+        ...item,
+        distance: getDistance(
+          { latitude: lat, longitude: lng },
+          { latitude: item.StationPosition.PositionLat, longitude: item.StationPosition.PositionLon }
+        ),
+      }));
+      getStations(data);
     });
-  }, [position, searchStations]);
+  }, [position, getStations]);
 
   useEffect(() => {
     fetchStations();
@@ -38,6 +49,7 @@ const SearchVehicles = ({ position, station, searchStations }) => {
       >
         <SearchBar />
         <VStack
+          ref={listRef}
           flex="1"
           h="full"
           overflowY="auto"
@@ -53,8 +65,8 @@ const SearchVehicles = ({ position, station, searchStations }) => {
             },
           }}
         >
-          {!station?.length && [0, 1, 2, 3].map(i => <VehicleCard key={i} />)}
-          {station?.map(item => (
+          {!station.length && [0, 1, 2, 3].map(i => <VehicleCard key={i} />)}
+          {station.map(item => (
             <VehicleCard key={item.StationUID} vehicle={item} />
           ))}
         </VStack>
@@ -73,7 +85,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    searchStations: data => dispatch(searchStations(data)),
+    getStations: data => dispatch(getStations(data)),
   };
 };
 

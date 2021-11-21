@@ -10,24 +10,28 @@ const initBikeAvailability = {
 };
 
 // [自行車] 指定範圍租借站位資料
-function getStationNearby(params) {
+function loadStationNearby(params) {
   return ajax(`/Bike/Station/Nearby`, { ...initBikeStation, ...params });
 }
 // [自行車] 指定範圍即時車位資料
-function getAvailabilityNearby(params = {}) {
+function loadAvailabilityNearby(params = {}) {
   return ajax(`/Bike/Availability/Nearby`, { ...initBikeAvailability, ...params });
 }
 
-export async function getBikeStation(params) {
-  const [bikeStations, bikeAvailability] = await Promise.all([getStationNearby(params), getAvailabilityNearby(params)]);
-
-  return (bikeStations || []).map((station, index) => ({
-    ...station,
-    StationName: station.StationName.Zh_tw.replace(/(YouBike1.0_|YouBike2.0_)/g, ''),
-    StationAddress: station.StationAddress.Zh_tw,
-    ...(bikeAvailability || [])[index],
-    UpdateTime: formattedDate(new Date(station.UpdateTime)),
-  }));
+export async function loadBikeStation(params) {
+  const [bikeStations, bikeAvailability] = await Promise.all([loadStationNearby(params), loadAvailabilityNearby(params)]);
+  try {
+    return bikeStations.map((station, index) => ({
+      ...station,
+      StationName: station.StationName.Zh_tw.replace(/(YouBike1.0_|YouBike2.0_)/g, ''),
+      StationAddress: station.StationAddress.Zh_tw,
+      ...(bikeAvailability || [])[index],
+      UpdateTime: formattedDate(new Date(station.UpdateTime)),
+    }));
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
 }
 
 const initShape = {
@@ -44,7 +48,7 @@ const initScenicSpot = {
   $filter: 'Picture/PictureUrl1 ne null',
 };
 // [景點] 景點資料
-export async function getScenicSpot(params) {
+export async function loadScenicSpot(params) {
   return ajax(`/Tourism/ScenicSpot`, { ...initScenicSpot, ...params }).then(res =>
     res.map(item => {
       const { Class1, Class2, Class3, Picture, DescriptionDetail: Description, ...data } = item;
@@ -59,7 +63,7 @@ const initRestaurant = {
   // $top: 30,
 };
 // [餐廳]
-export async function getRestaurant(params) {
+export async function loadRestaurant(params) {
   return ajax(`/Tourism/Restaurant`, { ...initRestaurant, ...params }).then(res =>
     res.map(item => {
       const { Class, Picture, ...data } = item;
